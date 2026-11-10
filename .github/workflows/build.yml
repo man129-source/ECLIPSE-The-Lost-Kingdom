@@ -1,0 +1,24 @@
+name: Build ECLIPSE for PSP
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: pspdev/pspdev:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: make
+
+      - name: Upload PSP game
+        uses: actions/upload-artifact@v4
+        with:
+          name: ECLIPSE-PSP-build
+          path: EBOOT.PBP
+          if-no-files-found: error
